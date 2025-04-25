@@ -12,7 +12,30 @@
     </style>
 </head>
 <body>
-    <h1>Каталог товаров</h1>
-    
+    <h1>Home and kitchen products</h1>
+    <div id="products"></div>
+
+    <script>
+        fetch('products.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('products');
+                data.forEach(product => {
+                    const div = document.createElement('div');
+                    div.className = 'product';
+                    div.innerHTML = 
+                        <h2>${product.title}</h2>
+                        <p>${product.description}</p>
+                        <img src="${product.image}" alt="${product.title}" />
+                        ${product.video ? <video controls src="${product.video}"></video> : ''}
+                    ;
+                    container.appendChild(div);
+                });
+            })
+            .catch(error => {
+                document.getElementById('products').innerText = 'Ошибка загрузки данных.';
+                console.error(error);
+            });
+    </script>
 </body>
 </html>
