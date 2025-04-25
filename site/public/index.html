@@ -12,7 +12,35 @@
     </style>
 </head>
 <body>
-    <h1>Каталог товаров</h1>
-    
+    <h1>Home and kitchen products</h1>
+    <div id="products-list"></div>
+
+    <script>
+        // Загружаем данные из products.json
+        fetch('./products.json')
+            .then(response => response.json())  // Преобразуем JSON в объект
+            .then(products => {
+                const productsList = document.getElementById('products-list');
+                products.forEach(product => {
+                    // Создаем новый div для каждого продукта
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product');
+                    
+                    // Вставляем информацию о продукте
+                    productElement.innerHTML = 
+                        <h2>${product.name}</h2>
+                        <p><strong>Цена:</strong> ${product.price}</p>
+                        <p><strong>Описание:</strong> ${product.description}</p>
+                        <img src="./${product.image}" alt="${product.name}" />
+                    ;
+                    
+                    // Добавляем продукт на страницу
+                    productsList.appendChild(productElement);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки продуктов:', error);
+            });
+    </script>
 </body>
 </html>
